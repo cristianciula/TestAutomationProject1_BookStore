@@ -60,6 +60,7 @@ public class BookDataStoreTests {
     @Order(1)
     @Test
     public void loginInvalidCredentials() throws InterruptedException {
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
         loginPage.authenticateInvalidUser(user);
         Thread.sleep(1000);
         assertEquals(Errors.INVALID_USER_OR_PASS, loginPage.getErrorMessage());
@@ -67,6 +68,7 @@ public class BookDataStoreTests {
     @Order(2)
     @Test
     public void loginValidCredentials() throws InterruptedException {
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
         assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
@@ -74,11 +76,13 @@ public class BookDataStoreTests {
     @Order(3)
     @Test
     public void searchBook() throws InterruptedException {
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
-        //Navigate to BookData Store page
+        //Navigate to Book Store page
         driver.get(URL.BOOK_STORE);
+
         Thread.sleep(1000);
         assertEquals(PageTitles.BOOK_STORE_PAGE_TITLE, bookStorePage.getPageTitle());
 

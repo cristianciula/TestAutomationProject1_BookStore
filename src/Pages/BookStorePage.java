@@ -10,26 +10,22 @@ import java.util.List;
 
 public class BookStorePage {
     WebDriver driver;
-
     public static BookData bookData = new BookData("bookData");
-
     public BookStorePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    //Locators
+    //LOCATORS
     private By headerLabel = By.xpath("//div[@class=\"main-header\"]");
     private By searchInput = By.id("searchBox");
     private By titleColumn = By.xpath("//div[@role=\"rowgroup\"]/descendant::div[@role=\"gridcell\"][2]");
     private By authorColumn = By.xpath("//div[@role=\"rowgroup\"]/descendant::div[@role=\"gridcell\"][3]");
     private By publisherColumn = By.xpath("//div[@role=\"rowgroup\"]/descendant::div[@role=\"gridcell\"][4]");
-
     private By bookLink(String bookTitle) {
         return By.xpath("//a[contains(.,\""+bookTitle+"\")]");
     }
 
-
-    //Actions
+    //ACTIONS
     public String getPageTitle() {
         return driver.findElement(headerLabel).getText();
     }

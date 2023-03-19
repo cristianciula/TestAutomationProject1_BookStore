@@ -5,17 +5,16 @@ import org.openqa.selenium.WebDriver;
 
 public class ProfilePage {
 	WebDriver driver;
-
 	public ProfilePage(WebDriver driver) {
 		this.driver = driver;
 	}
 
-	//Locators
+	//LOCATORS
 	private By usernameLabel = By.id("userName-value");
 	private By logoutButton = By.id("submit");
 	private By headerLabel = By.xpath("//div[@class=\"main-header\"]");
 
-	//Actions
+	//ACTIONS
 	public String getUsernameValue() {
 		return driver.findElement(usernameLabel).getText();
 	}

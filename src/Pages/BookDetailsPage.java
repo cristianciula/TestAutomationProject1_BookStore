@@ -16,7 +16,7 @@ public class BookDetailsPage {
         this.driver = driver;
     }
 
-    //Locators
+    //LOCATORS
     private By isbnLabel = By.xpath("//label[@id=\"ISBN-label\"]/../following-sibling::div/label");
     private By titleLabel = By.xpath("//label[@id=\"title-label\"]/../following-sibling::div/label");
     private By subTitle = By.xpath("//label[@id=\"subtitle-label\"]/../following-sibling::div/label");
@@ -27,7 +27,7 @@ public class BookDetailsPage {
     private By website = By.xpath("//label[@id=\"website-label\"]/../following-sibling::div/label");
     private By addToCollectionButton = By.id("addNewRecordButton");
 
-    //Actions
+    //ACTIONS
     public String getISBN() {
         return driver.findElement(isbnLabel).getText();
     }
