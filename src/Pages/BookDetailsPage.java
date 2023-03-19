@@ -25,7 +25,7 @@ public class BookDetailsPage {
     private By totalPages = By.xpath("//label[@id=\"pages-label\"]/../following-sibling::div/label");
     private By description = By.xpath("//label[@id=\"description-label\"]/../following-sibling::div/label");
     private By website = By.xpath("//label[@id=\"website-label\"]/../following-sibling::div/label");
-    private By addToCollectionButton = By.id("addNewRecordButton");
+    private By addToCollectionButton = By.xpath("//button[@id=\"addNewRecordButton\"][text()=\"Add To Your Collection\"]");
 
     //ACTIONS
     public String getISBN() {

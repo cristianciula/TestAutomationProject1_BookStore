@@ -12,8 +12,7 @@ import testData.*;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookDataStoreTests {
@@ -222,6 +221,11 @@ public class BookDataStoreTests {
         Thread.sleep(1000);
 
         //Check alert is displayed with expected text
+        bookDetailsPage.waitForAlert();
+        assertEquals(Alerts.BOOK_ADDED_ALERT, bookDetailsPage.getAlertText());
 
+        //Close alert
+        bookDetailsPage.acceptAlert();
+        Thread.sleep(1000);
     }
 }
