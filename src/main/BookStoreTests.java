@@ -120,7 +120,7 @@ public class BookStoreTests {
             assertTrue(bookStorePage.getTitleResults().get(i).contains(searchCriteria.getBookTitle()));
         }
 
-        //Navigate to Book Details page
+        //Navigate to a specific Book Details page
         bookStorePage.selectBook();
         Thread.sleep(1000);
         //Check user is on the expected Book Details page
@@ -135,5 +135,19 @@ public class BookStoreTests {
         assertEquals(book.getTotalPages(), bookDetailsPage.getTotalPages());
         assertEquals(book.getDescription(), bookDetailsPage.getDescription());
         assertEquals(book.getWebsite(), bookDetailsPage.getWebsite());
+    }
+    @Order(5)
+    @Test
+    public void addBookToCollection() throws InterruptedException {
+        loginPage.authenticateValidUser(User);
+        Thread.sleep(1000);
+
+        driver.navigate().to(URL.BOOK_DETAILS(book.getISBN()));
+        Thread.sleep(1000);
+
+        bookDetailsPage.clickAddToCollection();
+        Thread.sleep(1000);
+
+
     }
 }

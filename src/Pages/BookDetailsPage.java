@@ -1,6 +1,7 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class BookDetailsPage {
@@ -20,6 +21,7 @@ public class BookDetailsPage {
     private By totalPages = By.xpath("//label[@id=\"pages-label\"]/../following-sibling::div/label");
     private By description = By.xpath("//label[@id=\"description-label\"]/../following-sibling::div/label");
     private By website = By.xpath("//label[@id=\"website-label\"]/../following-sibling::div/label");
+    private By addToCollectionButton = By.id("addNewRecordButton");
 
     //Actions
     public String getISBN() {
@@ -45,5 +47,14 @@ public class BookDetailsPage {
     }
     public String getWebsite() {
         return driver.findElement(website).getText();
+    }
+    public void clickAddToCollection() {
+        int x = driver.findElement(addToCollectionButton).getLocation().getX()+10;
+        int y = driver.findElement(addToCollectionButton).getLocation().getY()+10;
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("Javascript:window.scrollBy("+x+","+y+")");
+
+        driver.findElement(addToCollectionButton).click();
     }
 }
