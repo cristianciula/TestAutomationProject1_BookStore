@@ -24,7 +24,7 @@ public class BookStoreTests {
     public static BookStorePage bookStorePage;
     public static BookDetailsPage bookDetailsPage;
 
-    public static User User = new User("User");
+    public static User user = new User("user");
     public static searchCriteria searchCriteria = new searchCriteria("searchCriteria");
     public static Book book = new Book("bookData");
 
@@ -60,21 +60,21 @@ public class BookStoreTests {
     @Order(1)
     @Test
     public void loginInvalidCredentials() throws InterruptedException {
-        loginPage.authenticateInvalidUser(User);
+        loginPage.authenticateInvalidUser(user);
         Thread.sleep(1000);
         assertEquals(Errors.INVALID_USER_OR_PASS, loginPage.getErrorMessage());
     }
     @Order(2)
     @Test
     public void loginValidCredentials() throws InterruptedException {
-        loginPage.authenticateValidUser(User);
+        loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
-        assertEquals(User.getValidUsername(), profilePage.getUsernameValue());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
     }
     @Order(3)
     @Test
     public void searchBook() throws InterruptedException {
-        loginPage.authenticateValidUser(User);
+        loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
         //Navigate to Book Store page
@@ -108,19 +108,22 @@ public class BookStoreTests {
     @Order(4)
     @Test
     public void checkBookDetails() throws InterruptedException {
-        loginPage.authenticateValidUser(User);
+        //Login
+        loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
+        //Navigate to Book Store page
         driver.navigate().to(URL.BOOK_STORE);
         Thread.sleep(1000);
 
+        //Search book by Title
         bookStorePage.searchInput(searchCriteria.getBookTitle());
         Thread.sleep(1000);
         for (int i=0; i<bookStorePage.getTitleResults().size(); i++) {
             assertTrue(bookStorePage.getTitleResults().get(i).contains(searchCriteria.getBookTitle()));
         }
 
-        //Navigate to a specific Book Details page
+        //Navigate to Book Details page
         bookStorePage.selectBook();
         Thread.sleep(1000);
         //Check user is on the expected Book Details page
@@ -139,15 +142,14 @@ public class BookStoreTests {
     @Order(5)
     @Test
     public void addBookToCollection() throws InterruptedException {
-        loginPage.authenticateValidUser(User);
+        loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
         driver.navigate().to(URL.BOOK_DETAILS(book.getISBN()));
         Thread.sleep(1000);
+        assertTrue(bookDetailsPage.addToCollectionButtonIsDisplayed());
 
         bookDetailsPage.clickAddToCollection();
         Thread.sleep(1000);
-
-
     }
 }

@@ -3,6 +3,10 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BookDetailsPage {
 
@@ -48,6 +52,9 @@ public class BookDetailsPage {
     public String getWebsite() {
         return driver.findElement(website).getText();
     }
+    public boolean addToCollectionButtonIsDisplayed() {
+        return driver.findElement(addToCollectionButton).isDisplayed();
+    }
     public void clickAddToCollection() {
         int x = driver.findElement(addToCollectionButton).getLocation().getX()+10;
         int y = driver.findElement(addToCollectionButton).getLocation().getY()+10;
@@ -56,5 +63,15 @@ public class BookDetailsPage {
         js.executeScript("Javascript:window.scrollBy("+x+","+y+")");
 
         driver.findElement(addToCollectionButton).click();
+    }
+    public void waitForAlert() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        wait.until(ExpectedConditions.alertIsPresent());
+    }
+    public String getAlertText() {
+        return driver.switchTo().alert().getText();
+    }
+    public void acceptAlert() {
+        driver.switchTo().alert().accept();
     }
 }
