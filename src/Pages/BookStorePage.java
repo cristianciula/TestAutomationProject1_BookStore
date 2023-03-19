@@ -3,7 +3,7 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import testData.Book;
+import testData.BookData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public class BookStorePage {
     WebDriver driver;
 
-    public static Book book = new Book("bookData");
+    public static BookData bookData = new BookData("bookData");
 
     public BookStorePage(WebDriver driver) {
         this.driver = driver;
@@ -75,6 +75,6 @@ public class BookStorePage {
         return publisherValues;
     }
     public void selectBook() {
-        driver.findElement(bookLink(book.getTitle())).click();
+        driver.findElement(bookLink(bookData.getTitle())).click();
     }
 }

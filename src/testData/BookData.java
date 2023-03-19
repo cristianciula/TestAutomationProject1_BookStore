@@ -2,7 +2,7 @@ package testData;
 
 import utils.Reader;
 
-public class Book {
+public class BookData {
 
     private String ISBN;
     private String title;
@@ -13,7 +13,7 @@ public class Book {
     private String description;
     private String website;
 
-    public Book(String fileName) {
+    public BookData(String fileName) {
         this.ISBN = Reader.json(fileName).get("ISBN").toString();
         this.title = Reader.json(fileName).get("title").toString();
         this.subTitle = Reader.json(fileName).get("subTitle").toString();

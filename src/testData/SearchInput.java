@@ -2,13 +2,13 @@ package testData;
 
 import utils.Reader;
 
-public class searchCriteria {
+public class SearchInput {
 
     private String bookTitle;
     private String bookAuthor;
     private String bookPublisher;
 
-    public searchCriteria(String fileName) {
+    public SearchInput(String fileName) {
         this.bookTitle = Reader.json(fileName).get("title").toString();
         this.bookAuthor = Reader.json(fileName).get("author").toString();
         this.bookPublisher = Reader.json(fileName).get("publisher").toString();
