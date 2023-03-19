@@ -26,6 +26,7 @@ public class BookDetailsPage {
     private By description = By.xpath("//label[@id=\"description-label\"]/../following-sibling::div/label");
     private By website = By.xpath("//label[@id=\"website-label\"]/../following-sibling::div/label");
     private By addToCollectionButton = By.xpath("//button[@id=\"addNewRecordButton\"][text()=\"Add To Your Collection\"]");
+    private By logoutButton = By.id("submit");
 
     //ACTIONS
     public String getISBN() {
@@ -76,5 +77,8 @@ public class BookDetailsPage {
     }
     public void acceptAlert() {
         driver.switchTo().alert().accept();
+    }
+    public void logout() {
+        driver.findElement(logoutButton).click();
     }
 }

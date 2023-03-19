@@ -74,5 +74,8 @@ public class ProfilePage {
 	public void acceptAlert() {
 		driver.switchTo().alert().accept();
 	}
+	public void logout() {
+		driver.findElement(logoutButton).click();
+	}
 }
 

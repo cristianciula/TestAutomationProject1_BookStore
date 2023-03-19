@@ -280,6 +280,9 @@ public class BookDataStoreTests {
         //Close alert
         bookDetailsPage.acceptAlert();
         Thread.sleep(1000);
+
+        bookDetailsPage.logout();
+        Thread.sleep(2000);
     }
     @Order(7)
     @Test
