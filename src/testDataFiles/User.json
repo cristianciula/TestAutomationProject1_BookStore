@@ -1,0 +1,6 @@
+{
+  "validUsername": "cristianciula",
+  "validPassword": "Parola12345!",
+  "invalidUsername": "usernameDoesNotExist",
+  "invalidPassword": "noNumbers"
+}
