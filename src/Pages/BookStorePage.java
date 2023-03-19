@@ -29,10 +29,13 @@ public class BookStorePage {
     public String getPageTitle() {
         return driver.findElement(headerLabel).getText();
     }
-    public void searchInput(String searchCriteria) {
+    public void searchByKeyword(String searchCriteria) {
         driver.findElement(searchInput).sendKeys(searchCriteria);
     }
-    public void clearSeachBox() {
+    public boolean searchBoxIsDisplayed() {
+        return driver.findElement(searchInput).isDisplayed();
+    }
+    public void clearSearchBox() {
         driver.findElement(searchInput).clear();
     }
     public List<String> getTitleResults() {
@@ -46,7 +49,6 @@ public class BookStorePage {
         }
         return titleValues;
     }
-
     public List<String> getAuthorResults() {
         List<WebElement> authorCells = driver.findElements(authorColumn);
         List<String> authorValues = new ArrayList<String>();
@@ -58,7 +60,6 @@ public class BookStorePage {
         }
         return authorValues;
     }
-
     public List<String> getPublisherResults() {
         List<WebElement> publisherCells = driver.findElements(publisherColumn);
         List<String> publisherValues = new ArrayList<String>();

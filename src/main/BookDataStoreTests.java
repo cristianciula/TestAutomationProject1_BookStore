@@ -60,51 +60,84 @@ public class BookDataStoreTests {
     @Order(1)
     @Test
     public void loginInvalidCredentials() throws InterruptedException {
+        //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
+        //Login using Invalid User
         loginPage.authenticateInvalidUser(user);
         Thread.sleep(1000);
-        assertEquals(Errors.INVALID_USER_OR_PASS, loginPage.getErrorMessage());
+
+        //Check user was not logged in
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+        assertEquals(Errors.INVALID_USER_OR_PASSWORD, loginPage.getErrorMessage());
     }
     @Order(2)
     @Test
     public void loginValidCredentials() throws InterruptedException {
+        //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
+        //Login
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
+
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
         assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
     }
     @Order(3)
     @Test
     public void searchBook() throws InterruptedException {
+        //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
+        //Login
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
+
         //Navigate to Book Store page
         driver.get(URL.BOOK_STORE);
-
         Thread.sleep(1000);
+
+        //Check user is on Book Store page
         assertEquals(PageTitles.BOOK_STORE_PAGE_TITLE, bookStorePage.getPageTitle());
+        assertTrue(bookStorePage.searchBoxIsDisplayed());
 
-        //Search bookData by Title
-        bookStorePage.searchInput(SearchInput.getBookTitle());
+        //Search book by Title
+        bookStorePage.searchByKeyword(SearchInput.getBookTitle());
         Thread.sleep(1000);
+
+        //Check all results contain expected keyword in the Title column
         for (int i=0; i<bookStorePage.getTitleResults().size(); i++) {
             assertTrue(bookStorePage.getTitleResults().get(i).contains(SearchInput.getBookTitle()));
         }
-        bookStorePage.clearSeachBox();
 
-        //Search bookData by Author
-        bookStorePage.searchInput(SearchInput.getAuthor());
+        //Clear the Search Box
+        bookStorePage.clearSearchBox();
+
+        //Search book by Author
+        bookStorePage.searchByKeyword(SearchInput.getAuthor());
         Thread.sleep(1000);
+
+        //Check all results contain expected keyword in the Author column
         for (int i=0; i<bookStorePage.getAuthorResults().size(); i++) {
             assertTrue(bookStorePage.getAuthorResults().get(i).contains(SearchInput.getAuthor()));
         }
-        bookStorePage.clearSeachBox();
 
-        //Search bookData by Publisher
-        bookStorePage.searchInput(SearchInput.getPublisher());
+        //Clear the Search Box
+        bookStorePage.clearSearchBox();
+
+        //Search book by Publisher
+        bookStorePage.searchByKeyword(SearchInput.getPublisher());
         Thread.sleep(1000);
+
+        //Check all results contain expected keyword in the Publisher column
         for (int i=0; i<bookStorePage.getPublisherResults().size(); i++) {
             assertTrue(bookStorePage.getPublisherResults().get(i).contains(SearchInput.getPublisher()));
         }
@@ -112,28 +145,43 @@ public class BookDataStoreTests {
     @Order(4)
     @Test
     public void checkBookDetails() throws InterruptedException {
+        //Check user is on Login page
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
         //Login
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
-        //Navigate to BookData Store page
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
+
+        //Navigate to Book Store page
         driver.navigate().to(URL.BOOK_STORE);
         Thread.sleep(1000);
 
-        //Search bookData by Title
-        bookStorePage.searchInput(SearchInput.getBookTitle());
+        //Check user is on Book Store page
+        assertEquals(PageTitles.BOOK_STORE_PAGE_TITLE, bookStorePage.getPageTitle());
+        assertTrue(bookStorePage.searchBoxIsDisplayed());
+
+        //Search book by Title
+        bookStorePage.searchByKeyword(SearchInput.getBookTitle());
         Thread.sleep(1000);
+
+        //Check all results contain expected keyword in the Title column
         for (int i=0; i<bookStorePage.getTitleResults().size(); i++) {
             assertTrue(bookStorePage.getTitleResults().get(i).contains(SearchInput.getBookTitle()));
         }
 
-        //Navigate to BookData Details page
+        //Select book in order to navigate to its respective Book Details page
         bookStorePage.selectBook();
         Thread.sleep(1000);
-        //Check user is on the expected BookData Details page
+
+        //Check user is on the expected Book Details page
         assertEquals(URL.BOOK_DETAILS(bookData.getISBN()), driver.getCurrentUrl());
 
-        //Check BookData Details
+        //Check Book Details
         assertEquals(bookData.getISBN(), bookDetailsPage.getISBN());
         assertEquals(bookData.getTitle(), bookDetailsPage.getTitle());
         assertEquals(bookData.getSubTitle(), bookDetailsPage.getSubTitle());
@@ -146,14 +194,34 @@ public class BookDataStoreTests {
     @Order(5)
     @Test
     public void addBookToCollection() throws InterruptedException {
+        //Check user is on Login page
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
+        //Login
         loginPage.authenticateValidUser(user);
         Thread.sleep(1000);
 
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
+
+        //Navigate to Book Details page via URL
         driver.navigate().to(URL.BOOK_DETAILS(bookData.getISBN()));
         Thread.sleep(1000);
-        assertTrue(bookDetailsPage.addToCollectionButtonIsDisplayed());
 
+        //Check user is on the expected Book Details page
+        assertEquals(URL.BOOK_DETAILS(bookData.getISBN()), driver.getCurrentUrl());
+
+        //Check Add To Collection button is displayed and enabled
+        assertTrue(bookDetailsPage.addToCollectionButtonIsDisplayed());
+        assertTrue(bookDetailsPage.addToCollectionButtonIsEnabled());
+
+        //Click on Add To Collection button
         bookDetailsPage.clickAddToCollection();
         Thread.sleep(1000);
+
+        //Check alert is displayed with expected text
+
     }
 }

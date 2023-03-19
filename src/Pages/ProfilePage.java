@@ -18,7 +18,7 @@ public class ProfilePage {
 	public String getUsernameValue() {
 		return driver.findElement(usernameLabel).getText();
 	}
-	public boolean logoutButtonDisplayed() {
+	public boolean logoutButtonIsDisplayed() {
 		return driver.findElement(logoutButton).isDisplayed();
 	}
 	public String getPageTitle() {

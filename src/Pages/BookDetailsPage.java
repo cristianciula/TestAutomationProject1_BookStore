@@ -55,6 +55,9 @@ public class BookDetailsPage {
     public boolean addToCollectionButtonIsDisplayed() {
         return driver.findElement(addToCollectionButton).isDisplayed();
     }
+    public boolean addToCollectionButtonIsEnabled() {
+        return driver.findElement(addToCollectionButton).isEnabled();
+    }
     public void clickAddToCollection() {
         int x = driver.findElement(addToCollectionButton).getLocation().getX()+10;
         int y = driver.findElement(addToCollectionButton).getLocation().getY()+10;
