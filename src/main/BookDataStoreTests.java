@@ -44,7 +44,7 @@ public class BookDataStoreTests {
     }
     @BeforeEach
     public void beforeEach() {
-        driver.get(URL.LOGIN);
+
     }
     @AfterEach
     public void afterEach() {
@@ -59,6 +59,9 @@ public class BookDataStoreTests {
     @Order(1)
     @Test
     public void loginInvalidCredentials() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
         //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
 
@@ -73,6 +76,9 @@ public class BookDataStoreTests {
     @Order(2)
     @Test
     public void loginValidCredentials() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
         //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
 
@@ -88,6 +94,9 @@ public class BookDataStoreTests {
     @Order(3)
     @Test
     public void searchBook() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
         //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
 
@@ -144,6 +153,9 @@ public class BookDataStoreTests {
     @Order(4)
     @Test
     public void checkBookDetails() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
         //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
 
@@ -173,7 +185,7 @@ public class BookDataStoreTests {
             assertTrue(bookStorePage.getTitleResults().get(i).contains(SearchInput.getBookTitle()));
         }
 
-        //Select book in order to navigate to its respective Book Details page
+        //Select book Title in order to navigate to its respective Book Details page
         bookStorePage.selectBook();
         Thread.sleep(1000);
 
@@ -193,6 +205,9 @@ public class BookDataStoreTests {
     @Order(5)
     @Test
     public void addBookToCollection() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
         //Check user is on Login page
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
 
@@ -227,5 +242,93 @@ public class BookDataStoreTests {
         //Close alert
         bookDetailsPage.acceptAlert();
         Thread.sleep(1000);
+    }
+    @Order(6)
+    @Test
+    public void addExistingBookToCollection() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
+        //Login
+        loginPage.authenticateValidUser(user);
+        Thread.sleep(1000);
+
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
+
+        //Navigate to Book Details page of a Book that is already in Book Collection
+        driver.get(URL.BOOK_DETAILS(bookData.getISBN()));
+        Thread.sleep(1000);
+
+        //Check user is on the expected Book Details page
+        assertEquals(URL.BOOK_DETAILS(bookData.getISBN()), driver.getCurrentUrl());
+
+        //Check Add To Collection button is displayed and enabled
+        assertTrue(bookDetailsPage.addToCollectionButtonIsDisplayed());
+        assertTrue(bookDetailsPage.addToCollectionButtonIsEnabled());
+
+        //Click on Add To Collection button
+        bookDetailsPage.clickAddToCollection();
+        Thread.sleep(1000);
+
+        //Check alert is displayed with expected text
+        bookDetailsPage.waitForAlert();
+        assertEquals(Alerts.BOOK_ALREADY_PRESENT, bookDetailsPage.getAlertText());
+
+        //Close alert
+        bookDetailsPage.acceptAlert();
+        Thread.sleep(1000);
+    }
+    @Order(7)
+    @Test
+    public void removeBookFromCollection() throws InterruptedException {
+        //Navigate to Login page
+        driver.get(URL.LOGIN);
+
+        //Check user is on Login page
+        assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());
+
+        //Login
+        loginPage.authenticateValidUser(user);
+        Thread.sleep(1000);
+
+        //Check user was logged in and is on Profile page
+        assertEquals(PageTitles.PROFILE_PAGE_TITLE, profilePage.getPageTitle());
+        assertEquals(user.getValidUsername(), profilePage.getUsernameValue());
+        assertTrue(profilePage.logoutButtonIsDisplayed());
+
+        //Check collection contains expected book title
+        for (int i=0; i<profilePage.getTitleResults().size(); i++) {
+            assertTrue(profilePage.getTitleResults().contains(bookData.getTitle()));
+        }
+
+        //Check removeIcon is displayed
+        assertTrue(profilePage.removeIconIsDisplayed());
+
+        //Remove book from Collection
+        profilePage.removeBookFromCollection();
+        Thread.sleep(1000);
+
+        //Check confirmation modal is displayed with expected text
+        assertEquals(Alerts.REMOVE_BOOK_MODAL, profilePage.getConfirmationModalText());
+
+        //Confirm book deletion in the confirmation modal
+        profilePage.agreeConfirmationModal();
+        Thread.sleep(1000);
+
+        //Check alert is displayed with expected text
+        profilePage.waitForAlert();
+        assertEquals(Alerts.BOOK_DELETED_ALERT, profilePage.getAlertText());
+
+        //Close alert
+        profilePage.acceptAlert();
+        Thread.sleep(1000);
+
+        //Check book was removed from Collection
+        for (int i=0; i<profilePage.getTitleResults().size(); i++) {
+            assertFalse(profilePage.getTitleResults().contains(bookData.getTitle()));
+        }
     }
 }
