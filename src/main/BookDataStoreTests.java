@@ -29,7 +29,7 @@ public class BookDataStoreTests {
 
     @BeforeAll
     public static void beforeAll() {
-        System.setProperty("webdriver.chrome.driver", "src/resource/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "src/resource/chromedriver.exe");
         ChromeOptions co = new ChromeOptions();
         co.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(co);
@@ -67,7 +67,7 @@ public class BookDataStoreTests {
 
         //Login using Invalid User
         loginPage.authenticateInvalidUser(user);
-        Thread.sleep(1000);
+        Thread.sleep(5000);
 
         //Check user was not logged in
         assertEquals(PageTitles.LOGIN_PAGE_TITLE, loginPage.getPageTitle());

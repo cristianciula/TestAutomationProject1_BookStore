@@ -1,6 +1,6 @@
 {
   "validUsername": "cristianciula",
   "validPassword": "Parola12345!",
-  "invalidUsername": "usernameDoesNotExist",
+  "invalidUsername": "AUTUser",
   "invalidPassword": "noNumbers"
 }

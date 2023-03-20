@@ -3,6 +3,7 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import testData.User;
+import utils.RandomGenerator;
 
 public class LoginPage {
 	WebDriver driver;
@@ -34,7 +35,7 @@ public class LoginPage {
 		clickLogin();
 	}
 	public void authenticateInvalidUser(User User) {
-		enterUsername(User.getInvalidUsername());
+		enterUsername(User.getInvalidUsername() + RandomGenerator.stringValue(10));
 		enterPassword(User.getValidPassword());
 		clickLogin();
 	}
