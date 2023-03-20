@@ -334,4 +334,9 @@ public class BookDataStoreTests {
             assertFalse(profilePage.getTitleResults().contains(bookData.getTitle()));
         }
     }
+    @Order(8)
+    @Test
+    public void logout() {
+        driver.get(URL.LOGIN);
+    }
 }
